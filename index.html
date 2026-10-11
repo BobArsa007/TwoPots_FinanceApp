@@ -41,7 +41,7 @@ h3{margin:0 0 18px;font-size:22px;font-weight:700;letter-spacing:-.025em;display
 .hint{margin:0;padding-top:14px;border-top:1px solid var(--line)}.cap{display:block;margin:20px 0 4px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}.xp{margin:14px 0}.xp>div{display:flex;justify-content:space-between;align-items:baseline;gap:14px;font-size:15px}.xp span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}.xp b{white-space:nowrap;font-weight:600}.xp u{display:block;height:8px;margin-top:8px;border-radius:99px;background:rgba(255,255,255,.08)}.xp i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bizf),#5fe3ab);box-shadow:0 0 12px rgba(43,182,125,.5)}
 .mn{display:flex;align-items:center;gap:6px;width:max-content;margin:8px auto 20px;padding:5px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);font-weight:600}.mn span{min-width:150px;text-align:center;font-size:17px}
 .mn button{width:46px;height:46px;padding:0;border:0;background:none;color:var(--mint);font-size:26px;line-height:1}
-.st{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.st.s2{grid-template-columns:1fr 1fr}.st span{display:block;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);margin-bottom:5px}.st b{font-size:30px;font-weight:700;letter-spacing:-.03em;overflow-wrap:anywhere}
+.st{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.st.s2{grid-template-columns:1fr 1fr}.st span{display:block;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);margin-bottom:5px}.st{container-type:inline-size}.st b{font-size:clamp(20px,6.6cqi,28px);font-weight:700;letter-spacing:-.03em;white-space:nowrap;font-variant-numeric:tabular-nums}.st .cu{font-size:.52em;font-weight:600;letter-spacing:0;opacity:.6;margin-right:.22em}
 .note{margin:20px 0 4px;padding-top:16px;border-top:1px solid var(--line);font-size:15px;color:var(--mut)}
 .bar{display:grid;grid-template-columns:124px 1fr auto;align-items:center;gap:14px;margin:16px 0;font-size:15px}.bar span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mut)}.bar u{display:block;height:8px;border-radius:99px;background:rgba(255,255,255,.08)}.bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bizf),#5fe3ab);box-shadow:0 0 12px rgba(43,182,125,.5)}
 button,select,input{font:inherit;letter-spacing:inherit;color:var(--fg)}
@@ -105,6 +105,7 @@ main{max-width:980px;padding:52px 40px 64px}
 #app.tx,#app.set,#app.trend{max-width:720px;margin:0 auto}
 #toast{left:calc(50% + 135px);bottom:32px}
 }
+@media(min-width:900px){.st:not(.s2)>div:last-child{grid-column:1/-1}.st:not(.s2){grid-template-columns:1fr 1fr}.st:not(.s2)>div:last-child{display:flex;justify-content:space-between;align-items:baseline;padding-top:16px;border-top:1px solid var(--line)}.st:not(.s2)>div:last-child span{margin:0}.st:not(.s2)>div:last-child b{font-size:clamp(22px,7.4cqi,32px)}}
 html{-webkit-text-size-adjust:100%}
 /* ---------- phone fit: calmer scale, tighter spacing ---------- */
 @media(max-width:599px){
@@ -289,16 +290,17 @@ function vHome(){
  const cls=n=>n<0?'neg':'',pb=Math.max(0,c.biz),pp=Math.max(0,c.per),bw=pb+pp?Math.round(pb/(pb+pp)*100):50;
  const IC={b:'<rect x="3" y="7.5" width="18" height="12.5" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 13.5h18"/>',p:'<path d="M4 11.5 12 4.5l8 7M6 10.5V19a1 1 0 0 0 1 1h3.2v-5h3.6v5H17a1 1 0 0 0 1-1v-8.5"/>'};
  const fnum=v=>{const r=sym()=='Rp',d=r?0:2;return(v<0?'-':'')+Math.abs(v).toLocaleString(r?'id-ID':'en-US',{minimumFractionDigits:d,maximumFractionDigits:d})};
+ const mv=n=>{const v=r2(n),s=sym();return(v<0?'-':'')+(s?'<small class="cu">'+esc(s)+'</small>':'')+fnum(Math.abs(v))};
  const PE='<path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/>';
  const pot=(k,l,v,key)=>`<div class="pot" role="button" tabindex="0" aria-label="Edit ${l}" onclick="openBal('${key}')" onkeydown="if(event.key=='Enter')openBal('${key}')"><i class="ti ${k}"><svg class="ic" viewBox="0 0 24 24">${IC[k]}</svg></i><div class="pc"><div class="pn">${l}</div><div class="inp"><span>${esc(sym())}</span><b class="v ${cls(v)}">${fnum(r2(v))}</b></div></div><i class="pe"><svg class="ic" viewBox="0 0 24 24">${PE}</svg></i></div>`;
  const has=pb+pp>0,fb=has?pb/(pb+pp):0,ring=donut(fb,has,bw);
  let h=`<div class="brand"><i class="logo"></i><span class="wm"><b><em>Two</em> <i>Pots</i></b><small>Business &amp; personal</small></span></div><div class="hero card"><div class="mut">Total in the bank</div><div class="big ${c.total<0?'neg':''}">${fmt(c.total)}</div><div class="rr"><div class="lg2"><div class="lgi b"><span class="lk"><i class="dt b"></i>Business</span><b>${has?bw+'%':'–'}</b><small>${fmt(c.biz)}</small></div><div class="lgi p"><span class="lk"><i class="dt p"></i>Personal</span><b>${has?100-bw+'%':'–'}</b><small>${fmt(c.per)}</small></div></div>${ring}</div></div>
  <div class="card pots">${pot('b','Business cash',c.biz,'ob')}${pot('p','Personal savings',c.per,'op')}<p class="mut hint">Tap a pot to edit its balance.</p></div>`;
  h+=mnav();
- h+=`<section class="sec"><h3><span class="dt b"></span>Business</h3><div class="st"><div><span>Income</span><b class="pos">${fmt(inc)}</b></div><div><span>Expenses</span><b>${fmt(exp)}</b></div><div><span>Profit</span><b class="${cls(inc-exp)}">${fmt(inc-exp)}</b></div></div>
+ h+=`<section class="sec"><h3><span class="dt b"></span>Business</h3><div class="st"><div><span>Income</span><b class="pos">${mv(inc)}</b></div><div><span>Expenses</span><b>${mv(exp)}</b></div><div><span>Profit</span><b class="${cls(inc-exp)}">${mv(inc-exp)}</b></div></div>
  <p class="note">${inc>0?`Expenses take ${Math.round(exp/inc*100)}% of sales. `:''}You took out ${fmt(dr)}${co?` and put in ${fmt(co)}`:''}.</p>
  ${big.length?'<span class="cap">Biggest expenses</span>'+big.map(t=>`<div class="xp"><div><span>${esc(t.t)}</span><b>${fmt(-t.a)}</b></div><u><i style="width:${Math.max(3,-t.a/mx*100)}%"></i></u></div>`).join(''):'<p class="mut">No business expenses this month.</p>'}</section>`;
- h+=`<section class="sec"><h3><span class="dt p"></span>Personal</h3><div class="st s2"><div><span>Money in</span><b class="pos">${fmt(pin)}</b></div><div><span>Spending</span><b>${fmt(pout)}</b></div><div><span>From business</span><b>${fmt(dr-co)}</b></div><div><span>Saved this month</span><b class="${cls(sv)}">${fmt(sv)}</b></div></div></section>`;
+ h+=`<section class="sec"><h3><span class="dt p"></span>Personal</h3><div class="st s2"><div><span>Money in</span><b class="pos">${mv(pin)}</b></div><div><span>Spending</span><b>${mv(pout)}</b></div><div><span>From business</span><b>${mv(dr-co)}</b></div><div><span>Saved this month</span><b class="${cls(sv)}">${mv(sv)}</b></div></div></section>`;
  return h;
 }
 
