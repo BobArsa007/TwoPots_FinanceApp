@@ -29,16 +29,16 @@ h3{margin:0 0 18px;font-size:22px;font-weight:700;letter-spacing:-.025em;display
 .dt{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}.dt.b{background:var(--bizf);box-shadow:0 0 8px var(--bizf)}.dt.p{background:var(--perf);box-shadow:0 0 8px var(--perf)}.dt.x{box-shadow:inset 0 0 0 1.5px var(--mut)}
 .hero{padding:24px}.big{font-size:clamp(38px,12vw,60px);font-weight:700;letter-spacing:-.045em;line-height:1.05;margin:6px 0 0;color:var(--mint);text-shadow:0 0 36px rgba(20,227,168,.4);overflow-wrap:anywhere}.big.neg{color:var(--neg);text-shadow:0 0 36px rgba(255,84,104,.35)}
 .rr{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:22px}
-.lg2{display:grid;gap:14px;font-size:16px;color:var(--mut)}.lg2 .dt{margin-right:10px}.lg2 b{color:var(--fg);font-weight:600;margin-left:8px}
-.rw{position:relative;width:112px;height:112px;flex:none}.rw svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}.rw circle{fill:none;stroke-width:11;stroke-linecap:round}
-.r1{stroke:var(--perf);filter:drop-shadow(0 0 7px rgba(255,182,46,.6))}.r2{stroke:var(--bizf);filter:drop-shadow(0 0 8px rgba(43,182,125,.65))}
-.rw b{position:absolute;inset:0;display:grid;place-items:center;font-size:19px;font-weight:700}
+.lg2{display:grid;gap:12px;min-width:200px}.lgi{padding:14px 18px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 10px 24px -14px rgba(0,0,0,.6)}.lgi .lk{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}.lgi b{display:block;margin-top:8px;font-size:34px;font-weight:700;letter-spacing:-.045em;line-height:1;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}.lgi.b b{background-image:linear-gradient(180deg,#9afbd2,#2bb67d)}.lgi.p b{background-image:linear-gradient(180deg,#ffe08a,#ffa91f)}.lgi small{display:block;margin-top:7px;font-size:14px;font-weight:500;color:var(--mut);letter-spacing:-.01em}
+.rw{position:relative;width:250px;max-width:100%;flex:none}.rw svg{display:block;width:100%;height:auto;overflow:visible}.rw text{fill:#fff;font-weight:800;letter-spacing:-.02em;paint-order:stroke;stroke:rgba(4,30,34,.55);stroke-width:2.2px;stroke-linejoin:round;pointer-events:none}.rw .sl{transition:transform .35s cubic-bezier(.2,.8,.2,1)}@media(hover:hover){.rw .sl:hover{transform:translateY(-4px)}}
+#app.in .rw svg{animation:ringin .8s cubic-bezier(.2,.8,.2,1) both}@keyframes ringin{from{opacity:0;transform:translateY(12px) scale(.94)}}
+
 .pots{padding:4px 22px 18px}
 .pot{display:flex;align-items:center;gap:14px;padding:16px 0}.pot+.pot{border-top:1px solid var(--line)}
 .ti{width:54px;height:54px;border-radius:17px;display:grid;place-items:center;flex:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}.ti.b{background:rgba(43,182,125,.16);color:var(--bizf)}.ti.p{background:rgba(255,182,46,.18);color:var(--perf)}
 .pc{flex:1;min-width:0}.pn{font-weight:500;font-size:15px;color:var(--mut);line-height:1.3}
 .pot .inp{display:flex;align-items:baseline;gap:6px;margin-top:2px}.inp span{font-size:18px;font-weight:600;color:var(--mut)}
-.hint{margin:0;padding-top:14px;border-top:1px solid var(--line)}
+.hint{margin:0;padding-top:14px;border-top:1px solid var(--line)}.cap{display:block;margin:20px 0 4px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}.xp{margin:14px 0}.xp>div{display:flex;justify-content:space-between;align-items:baseline;gap:14px;font-size:15px}.xp span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}.xp b{white-space:nowrap;font-weight:600}.xp u{display:block;height:8px;margin-top:8px;border-radius:99px;background:rgba(255,255,255,.08)}.xp i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--bizf),#5fe3ab);box-shadow:0 0 12px rgba(43,182,125,.5)}
 .mn{display:flex;align-items:center;gap:6px;width:max-content;margin:8px auto 20px;padding:5px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);font-weight:600}.mn span{min-width:150px;text-align:center;font-size:17px}
 .mn button{width:46px;height:46px;padding:0;border:0;background:none;color:var(--mint);font-size:26px;line-height:1}
 .st{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.st.s2{grid-template-columns:1fr 1fr}.st span{display:block;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);margin-bottom:5px}.st b{font-size:30px;font-weight:700;letter-spacing:-.03em;overflow-wrap:anywhere}
@@ -119,12 +119,12 @@ h3{font-size:18px;margin:0 0 14px;gap:8px}
 .hero{padding:18px}
 .big{font-size:clamp(30px,9.5vw,40px);margin-top:4px;text-shadow:0 0 24px rgba(20,227,168,.3)}
 .mut{font-size:13px}
-.rr{margin-top:14px}.rw{width:80px;height:80px}.rw circle{stroke-width:10}.rw b{font-size:15px}
-.lg2{font-size:13px;gap:10px}.lg2 .dt{margin-right:8px}
+.rr{margin-top:14px}.rr{flex-direction:column;align-items:stretch;gap:10px}.rw{order:-1;width:100%;max-width:280px;height:auto;align-self:center}
+.lg2{gap:10px;grid-template-columns:1fr 1fr;width:100%;min-width:0}.lgi{padding:12px 14px;border-radius:18px}.lgi .lk{font-size:11px}.lgi b{font-size:28px;margin-top:6px}.lgi small{font-size:12px;margin-top:6px}
 .pots{padding:2px 16px 14px}.pot{padding:12px 0;gap:12px}
 .ti{width:42px;height:42px;border-radius:14px}.ti .ic{width:22px;height:22px}
 .pe{width:34px;height:34px}.pe .ic{width:16px;height:16px}
-.pn{font-size:13px}.pot .v{font-size:22px}.hint{padding-top:12px}
+.pn{font-size:13px}.pot .v{font-size:22px}.hint{padding-top:12px}.cap{margin:16px 0 2px;font-size:11px}.xp{margin:11px 0}.xp>div{font-size:13px}.xp u{height:6px;margin-top:6px}
 .mn{margin:2px auto 14px;padding:4px}.mn button{width:38px;height:38px;font-size:22px}.mn span{min-width:130px;font-size:15px}
 .st span,.st>div span{font-size:13px}.st b{font-size:17px}.st>div{padding:11px 0}
 .note{font-size:13px;margin:14px 0 2px;padding-top:12px}
@@ -157,7 +157,6 @@ label{font-size:13px;margin:14px 0 6px}
 </nav>
 <div id="modal"></div><div id="toast"></div>
 <script>
-const CATS={biz:{in:['Sales','Other income'],out:['Ingredients','Packaging','Delivery','Equipment','Rent & utilities','Marketing','Staff','Other expense']},per:{in:['Salary / income','Interest','Other income'],out:['Food & groceries','Bills','Transport','Health','Shopping','Other spending']}};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ym=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
@@ -213,17 +212,30 @@ function setS(k,v){
  else LS.set('settings',S.set);
 }
 
-const pnum=v=>{v=String(v).trim();if(/^-?\d{1,3}(\.\d{3})+(,\d+)?$/.test(v))v=v.replace(/\./g,'').replace(',','.');return v===''||isNaN(+v)?null:+v};
+const pnum=v=>{v=String(v??'').trim();if(v==='')return null;const r=sym()=='Rp';v=v.split(r?'.':',').join('');if(r)v=v.replace(',','.');return v===''||isNaN(+v)?null:+v};
+const grp=t=>t.replace(/\B(?=(\d{3})+(?!\d))/g,sym()=='Rp'?'.':',');
+const fin=n=>{if(n==null||n==='')return'';const r=sym()=='Rp',[i,d]=String(Math.round(Math.abs(n)*100)/100).split('.');return(n<0?'-':'')+grp(i)+(d?(r?',':'.')+d:'')};
+function mask(el,neg){
+ const r=sym()=='Rp',ts=r?'.':',',ds=r?',':'.',v=el.value,pos=el.selectionStart??v.length,
+  sg=ch=>/[0-9]/.test(ch)||ch==ds||(neg&&ch=='-'),ng=neg&&v.trim().startsWith('-');
+ const raw=v.split(ts).join('').replace(r?/[^0-9,]/g:/[^0-9.]/g,''),k=raw.indexOf(ds);
+ let ip=k<0?raw:raw.slice(0,k);const dp=k<0?null:raw.slice(k+1).replace(/\D/g,'').slice(0,2);
+ ip=ip.replace(/^0+(?=\d)/,'');if(!ip&&dp!=null)ip='0';
+ const out=(ng?'-':'')+grp(ip)+(dp==null?'':ds+dp);
+ let n=0;for(let i=0;i<pos;i++)if(sg(v[i]))n++;
+ let q=0,c=0;while(q<out.length&&c<n){if(sg(out[q]))c++;q++}
+ if(out!==v){el.value=out;try{el.setSelectionRange(q,q)}catch(e){}}
+}
 const r2=x=>Math.round(x*100)/100;
 function openBal(key){
- const c=calc(),f=id=>`<input id="${id}" type="text" inputmode="decimal" autocomplete="off" oninput="balSum()" onkeydown="if(event.key=='Enter')saveBal()">`;
+ const c=calc(),f=id=>`<input id="${id}" type="text" inputmode="decimal" autocomplete="off" oninput="mask(this,1);balSum()" onkeydown="if(event.key=='Enter')saveBal()">`;
  $('modal').innerHTML=`<div class="ov" onclick="if(event.target==this)closeM()"><div class="sheet"><h3>Edit balances</h3>
  <p class="mut" style="text-align:center;margin:-6px 0 6px">Type what is really in each pot today.</p>
  <label><span class="dt b"></span>Business cash (${esc(sym())})</label>${f('eb')}
  <label><span class="dt p"></span>Personal savings (${esc(sym())})</label>${f('ep')}
  <div class="bsum"><span class="mut">Total in the bank</span><b id="et"></b></div>
  <div class="g2" style="margin-top:18px"><button class="p" onclick="saveBal()">Save</button><button onclick="closeM()">Cancel</button></div></div></div>`;
- $('eb').value=r2(c.biz);$('ep').value=r2(c.per);balSum();
+ $('eb').value=fin(r2(c.biz));$('ep').value=fin(r2(c.per));balSum();
  const e=$(key=='op'?'ep':'eb');e.focus();e.select();
 }
 function balSum(){const b=pnum($('eb').value),p=pnum($('ep').value);$('et').textContent=b==null||p==null?'–':fmt(b+p)}
@@ -236,26 +248,56 @@ function saveBal(){
 }
 
 /* ---------- home ---------- */
+function donut(fb,has,bw){
+ const cx=75,cy=48,Ro=62,Ri=28,k=.55,h=12,P=Math.PI,T0=-P/2,
+  f=n=>n.toFixed(2),
+  X=(t,R,dz)=>f(cx+R*Math.cos(t))+' '+f(cy+R*k*Math.sin(t)+dz),
+  A=(R,a,b,dz,s)=>'A'+R+' '+f(R*k)+' 0 '+(Math.abs(b-a)>P+1e-6?1:0)+' '+s+' '+X(b,R,dz),
+  top=(a,b)=>'M'+X(a,Ro,0)+A(Ro,a,b,0,1)+'L'+X(b,Ri,0)+A(Ri,b,a,0,0)+'Z',
+  wall=(R,a,b)=>'M'+X(a,R,0)+A(R,a,b,0,1)+'L'+X(b,R,h)+A(R,b,a,h,0)+'Z',
+  cl=(a,b,lo,hi)=>{const s=Math.max(a,lo),e=Math.min(b,hi);return e-s>.002?[s,e]:null},
+  col={b:['gTb','gWb'],p:['gTp','gWp'],n:['gTn','gWn']},
+  two=has&&fb>=.0005&&fb<=.9995,
+  lg=(id,a,b,c,v)=>'<linearGradient id="'+id+'" gradientUnits="userSpaceOnUse" '+(v?'x1="14" y1="14" x2="136" y2="82"':'x1="13" y1="0" x2="137" y2="0"')+'><stop offset="0" stop-color="'+a+'"/><stop offset=".5" stop-color="'+b+'"/><stop offset="1" stop-color="'+c+'"/></linearGradient>';
+ let sl;
+ if(!has)sl=[[T0,P/2,'n'],[P/2-.01,T0+2*P+.01,'n']];
+ else if(!two){const c=fb>.5?'b':'p';sl=[[T0,P/2,c],[P/2-.01,T0+2*P+.01,c,100,P/2]]}
+ else{const e=T0+2*P*fb;sl=[[T0,e,'b',bw,(T0+e)/2],[e,T0+2*P,'p',100-bw,(e+T0+2*P)/2]]}
+ const g=sl.map(([a,b,c,p,t])=>{
+  const [gt,gw]=col[c];let s='';
+  [[T0,0],[P,T0+2*P]].forEach(([lo,hi])=>{const q=cl(a,b,lo,hi);if(q){const d=wall(Ri,q[0],q[1]);s+='<path d="'+d+'" fill="url(#'+gw+')"/><path d="'+d+'" fill="rgba(0,0,0,.32)"/>'}});
+  const q=cl(a,b,0,P);if(q)s+='<path d="'+wall(Ro,q[0],q[1])+'" fill="url(#'+gw+')"/>';
+  const d=top(a,b);
+  s+='<path d="'+d+'" fill="url(#'+gt+')" stroke="'+(two?'rgba(5,30,34,.45)':'none')+'" stroke-width=".6" stroke-linejoin="round"/><path d="'+d+'" fill="url(#gGl)"/>';
+  if(p!=null){const R=p<12?Ro+12:(Ro+Ri)/2;s+='<text x="'+f(cx+R*Math.cos(t))+'" y="'+f(cy+R*k*Math.sin(t))+'" text-anchor="middle" dominant-baseline="central" font-size="10.5">'+p+'%</text>'}
+  return'<g class="'+(two?'sl':'sf')+'">'+s+'</g>'}).join('');
+ const al=has?'Business '+bw+'%, personal '+(100-bw)+'%':'No balance yet';
+ return'<div class="rw"><svg viewBox="0 0 150 106" role="img" aria-label="'+al+'"><defs>'
+  +lg('gTb','#7bf7c4','#2fc78b','#169a68',1)+lg('gTp','#ffe29a','#ffb62e','#f08c0a',1)+lg('gTn','#5a6c71','#47585d','#3a4a4f',1)
+  +lg('gWb','#29b57f','#148a5c','#08502f')+lg('gWp','#e0900a','#b36e06','#6e3d00')+lg('gWn','#3a4c52','#2b3a40','#1a2427')
+  +'<radialGradient id="gGl" gradientUnits="userSpaceOnUse" cx="45" cy="20" r="100"><stop offset="0" stop-color="#fff" stop-opacity=".45"/><stop offset=".55" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>'
+  +'<filter id="gSh" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="5"/></filter></defs>'
+  +'<ellipse cx="75" cy="'+(cy+h+14)+'" rx="'+f(Ro*.9)+'" ry="'+f(Ro*k*.8)+'" fill="rgba(0,0,0,.55)" filter="url(#gSh)"/>'+g+'</svg></div>'
+}
 function vHome(){
  const c=calc(),m=S.mon,ms=c.all.filter(t=>t.d.startsWith(m)),tx=ms.filter(t=>t.k!='t');
  const bz=tx.filter(t=>t.b!='per'),pr=tx.filter(t=>t.b=='per'),exo=bz.filter(t=>t.a<0);
- const inc=sum(bz.filter(t=>t.a>0)),exp=-sum(exo),ing=-sum(exo.filter(t=>t.c=='Ingredients'));
+ const inc=sum(bz.filter(t=>t.a>0)),exp=-sum(exo);
  const dr=ms.filter(t=>t.k=='t'&&t.dir=='bp').reduce((x,t)=>x+t.a,0),co=ms.filter(t=>t.k=='t'&&t.dir=='pb').reduce((x,t)=>x+t.a,0);
  const pin=sum(pr.filter(t=>t.a>0)),pout=-sum(pr.filter(t=>t.a<0)),sv=pin-pout+dr-co;
- const cats={};exo.forEach(t=>{const k=t.c||'Uncategorized';cats[k]=(cats[k]||0)-t.a});
- const cl=Object.entries(cats).sort((a,b)=>b[1]-a[1]),mx=cl.length?cl[0][1]:1;
+ const big=[...exo].sort((a,b)=>a.a-b.a).slice(0,4),mx=big.length?-big[0].a:1;
  const cls=n=>n<0?'neg':'',pb=Math.max(0,c.biz),pp=Math.max(0,c.per),bw=pb+pp?Math.round(pb/(pb+pp)*100):50;
  const IC={b:'<rect x="3" y="7.5" width="18" height="12.5" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5M3 13.5h18"/>',p:'<path d="M4 11.5 12 4.5l8 7M6 10.5V19a1 1 0 0 0 1 1h3.2v-5h3.6v5H17a1 1 0 0 0 1-1v-8.5"/>'};
  const fnum=v=>{const r=sym()=='Rp',d=r?0:2;return(v<0?'-':'')+Math.abs(v).toLocaleString(r?'id-ID':'en-US',{minimumFractionDigits:d,maximumFractionDigits:d})};
  const PE='<path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/>';
  const pot=(k,l,v,key)=>`<div class="pot" role="button" tabindex="0" aria-label="Edit ${l}" onclick="openBal('${key}')" onkeydown="if(event.key=='Enter')openBal('${key}')"><i class="ti ${k}"><svg class="ic" viewBox="0 0 24 24">${IC[k]}</svg></i><div class="pc"><div class="pn">${l}</div><div class="inp"><span>${esc(sym())}</span><b class="v ${cls(v)}">${fnum(r2(v))}</b></div></div><i class="pe"><svg class="ic" viewBox="0 0 24 24">${PE}</svg></i></div>`;
- const C=2*Math.PI*40,ring=`<div class="rw"><svg viewBox="0 0 100 100"><circle class="r1" cx="50" cy="50" r="40"/><circle class="r2" cx="50" cy="50" r="40" stroke-dasharray="${(C*bw/100).toFixed(1)} ${C.toFixed(1)}" ${bw?'':'style="display:none"'}/></svg><b>${bw}%</b></div>`;
- let h=`<div class="brand"><i class="logo"></i><span class="wm"><b><em>Two</em> <i>Pots</i></b><small>Business &amp; personal</small></span></div><div class="hero card"><div class="mut">Total in the bank</div><div class="big ${c.total<0?'neg':''}">${fmt(c.total)}</div><div class="rr"><div class="lg2"><div><span class="dt b"></span>Business<b>${bw}%</b></div><div><span class="dt p"></span>Personal<b>${100-bw}%</b></div></div>${ring}</div></div>
+ const has=pb+pp>0,fb=has?pb/(pb+pp):0,ring=donut(fb,has,bw);
+ let h=`<div class="brand"><i class="logo"></i><span class="wm"><b><em>Two</em> <i>Pots</i></b><small>Business &amp; personal</small></span></div><div class="hero card"><div class="mut">Total in the bank</div><div class="big ${c.total<0?'neg':''}">${fmt(c.total)}</div><div class="rr"><div class="lg2"><div class="lgi b"><span class="lk"><i class="dt b"></i>Business</span><b>${has?bw+'%':'–'}</b><small>${fmt(c.biz)}</small></div><div class="lgi p"><span class="lk"><i class="dt p"></i>Personal</span><b>${has?100-bw+'%':'–'}</b><small>${fmt(c.per)}</small></div></div>${ring}</div></div>
  <div class="card pots">${pot('b','Business cash',c.biz,'ob')}${pot('p','Personal savings',c.per,'op')}<p class="mut hint">Tap a pot to edit its balance.</p></div>`;
  h+=mnav();
  h+=`<section class="sec"><h3><span class="dt b"></span>Business</h3><div class="st"><div><span>Income</span><b class="pos">${fmt(inc)}</b></div><div><span>Expenses</span><b>${fmt(exp)}</b></div><div><span>Profit</span><b class="${cls(inc-exp)}">${fmt(inc-exp)}</b></div></div>
- <p class="note">${inc>0?`Ingredients take ${Math.round(ing/inc*100)}% of sales. `:''}You took out ${fmt(dr)}${co?` and put in ${fmt(co)}`:''}.</p>
- ${cl.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><u><i style="width:${Math.max(3,v/mx*100)}%"></i></u><span>${fmt(v)}</span></div>`).join('')||'<p class="mut">No business expenses this month.</p>'}</section>`;
+ <p class="note">${inc>0?`Expenses take ${Math.round(exp/inc*100)}% of sales. `:''}You took out ${fmt(dr)}${co?` and put in ${fmt(co)}`:''}.</p>
+ ${big.length?'<span class="cap">Biggest expenses</span>'+big.map(t=>`<div class="xp"><div><span>${esc(t.t)}</span><b>${fmt(-t.a)}</b></div><u><i style="width:${Math.max(3,-t.a/mx*100)}%"></i></u></div>`).join(''):'<p class="mut">No business expenses this month.</p>'}</section>`;
  h+=`<section class="sec"><h3><span class="dt p"></span>Personal</h3><div class="st s2"><div><span>Money in</span><b class="pos">${fmt(pin)}</b></div><div><span>Spending</span><b>${fmt(pout)}</b></div><div><span>From business</span><b>${fmt(dr-co)}</b></div><div><span>Saved this month</span><b class="${cls(sv)}">${fmt(sv)}</b></div></div></section>`;
  return h;
 }
@@ -270,7 +312,7 @@ function filt(){
 }
 function row(t){
  const tr=t.k=='t',dot=tr?'x':t.b=='per'?'p':'b';
- const sub=tr?(t.dir=='bp'?'To personal':'To business'):(t.c?esc(t.c):'No category');
+ const sub=tr?(t.dir=='bp'?'To personal':'To business'):(t.b=='per'?'Personal':'Business');
  return`<div class="tr" onclick="openForm('${t.id}')"><span class="dt ${dot}"></span><div class="tm"><div class="d">${esc(t.t)}</div><div class="mut">${+t.d.slice(8)} ${MN[+t.d.slice(5,7)-1]} · ${sub}</div></div><b class="${!tr&&t.a>0?'pos':''}">${tr?'':t.a>0?'+':''}${fmt(t.a)}</b></div>`;
 }
 function vTx(){
@@ -284,32 +326,31 @@ function openForm(id){
  const t=id?findT(id):null,k=t?(t.k=='t'?t.dir:t.a>=0?'in':'out'):'out';
  const sg=(n,o)=>`<div class="seg" data-s="${n}">${o.map(([v,l])=>`<button type="button" data-v="${v}" onclick="seg('${n}','${v}')">${l}</button>`).join('')}</div>`;
  $('modal').innerHTML=`<div class="ov" onclick="if(event.target==this)closeM()"><div class="sheet"><h3>${t?'Edit':'New'} transaction</h3>
- <input id="fa" class="amt" type="number" inputmode="decimal" step="any" placeholder="0" value="${t?Math.abs(t.a):''}">
+ <input id="fa" class="amt" type="text" inputmode="decimal" autocomplete="off" placeholder="0" oninput="mask(this)" value="${t?fin(Math.abs(t.a)):''}">
  <input type="hidden" id="fk"><input type="hidden" id="fb">
  ${sg('fk',[['in','Money in'],['out','Money out'],['bp','Owner draw'],['pb','Contribution']])}
  <p class="mut" id="fh" style="margin:8px 2px 0"></p>
  <label>Description</label><input id="ft" placeholder="What was it for?" value="${esc(t?.t||'')}">
  <div id="frb"><label>Belongs to</label>${sg('fb',[['biz','Business'],['per','Personal']])}</div>
- <div class="g2" id="frd"><div><label>Date</label><input id="fd" type="date" value="${t?t.d:today()}"></div><div id="frc"><label>Category</label><select id="fc"></select></div></div>
+ <div id="frd"><label>Date</label><input id="fd" type="date" value="${t?t.d:today()}"></div>
  <div class="g2" style="margin-top:18px"><button class="p" onclick="saveF('${t?t.id:''}')">Save</button><button onclick="closeM()">Cancel</button></div>
  ${t?`<button style="margin-top:10px;width:100%;color:var(--neg)" onclick="if(confirm('Delete this transaction?'))delTx('${t.id}')">Delete</button>`:''}</div></div>`;
- $('fk').value=k;$('fb').value=t?.b||'biz';fcats(t?.c||'');
+ $('fk').value=k;$('fb').value=t?.b||'biz';fcats();
 }
 const seg=(n,v)=>{$(n).value=v;fcats()};
-function fcats(init){
- const k=$('fk').value,b=$('fb').value,tr=k=='bp'||k=='pb';
+function fcats(){
+ const k=$('fk').value,tr=k=='bp'||k=='pb';
  document.querySelectorAll('.seg button').forEach(x=>x.classList.toggle('on',$(x.parentNode.dataset.s).value==x.dataset.v));
  $('fh').textContent=tr?(k=='bp'?'Moves money from Business to Personal. The bank total stays the same.':'Moves money from Personal to Business. The bank total stays the same.'):'';
- $('frb').style.display=$('frc').style.display=tr?'none':'';$('frd').style.gridTemplateColumns=tr?'1fr':'';
- const l=(CATS[b]||{})[k]||[],cur=init??$('fc').value;
- $('fc').innerHTML='<option value="">— none —</option>'+[...new Set([...l,...(cur&&!l.includes(cur)?[cur]:[])])].map(x=>`<option ${x==cur?'selected':''}>${esc(x)}</option>`).join('');
+ $('frb').style.display=tr?'none':'';
+ $('ft').placeholder=tr?'Optional note':k=='in'?'e.g. Sales today, GoFood payout':'e.g. ATM cash for ingredients and gas';
 }
 function saveF(i){
- const k=$('fk').value,d=$('fd').value,a=Math.abs(+$('fa').value);
+ const k=$('fk').value,d=$('fd').value,a=Math.abs(pnum($('fa').value)||0);
  if(!d||!a){toast('Enter a date and an amount');return}
  const tr=k=='bp'||k=='pb',desc=$('ft').value.trim(),id=i||uid();
  const t=tr?{id,k:'t',dir:k,d,t:desc||(k=='bp'?'Owner draw':'Owner contribution'),a}
-  :{id,d,t:desc||'(no description)',a:k=='in'?a:-a,b:$('fb').value,c:$('fc').value};
+  :{id,d,t:desc||'(no description)',a:k=='in'?a:-a,b:$('fb').value};
  closeM();saveTx(t);
 }
 const closeM=()=>$('modal').innerHTML='';
@@ -320,16 +361,16 @@ let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(S.t
 const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const short=n=>{const a=Math.abs(n),r=sym()=='Rp',g=(v,u)=>(n<0?'-':'')+(Math.round(v*10)/10).toString().replace('.',r?',':'.')+u;return a>=1e9?g(a/1e9,r?'M':'B'):a>=1e6?g(a/1e6,r?'jt':'M'):a>=1e3?g(a/1e3,r?'rb':'k'):String(Math.round(n))};
 function series(n){
- const by={},z=()=>({inc:0,exp:0,ing:0,dr:0,co:0,pin:0,pout:0,db:0,dp:0});
+ const by={},z=()=>({inc:0,exp:0,dr:0,co:0,pin:0,pout:0,db:0,dp:0});
  calc().all.forEach(t=>{const m=by[mOf(t.d)]=by[mOf(t.d)]||z();
   if(t.k=='t'){if(t.dir=='bp'){m.dr+=t.a;m.db-=t.a;m.dp+=t.a}else{m.co+=t.a;m.dp-=t.a;m.db+=t.a}}
-  else if(t.b!='per'){m.db+=t.a;if(t.a>0)m.inc+=t.a;else{m.exp-=t.a;if(t.c=='Ingredients')m.ing-=t.a}}
+  else if(t.b!='per'){m.db+=t.a;if(t.a>0)m.inc+=t.a;else m.exp-=t.a}
   else{m.dp+=t.a;if(t.a>0)m.pin+=t.a;else m.pout-=t.a}});
  const ks=Object.keys(by).sort(),end=ks.length?ks[ks.length-1]:ym(new Date()),[ey,em]=end.split('-').map(Number),keys=[];
  for(let i=0;i<n;i++)keys.unshift(ym(new Date(ey,em-1-i,1)));
  let b=S.set.ob||0,p=S.set.op||0;
  ks.filter(k=>k<keys[0]).forEach(k=>{b+=by[k].db;p+=by[k].dp});
- return keys.map(k=>{const m=by[k]||z();b+=m.db;p+=m.dp;return{k,...m,profit:m.inc-m.exp,pct:m.inc>0?m.ing/m.inc*100:null,saved:m.pin-m.pout+m.dr-m.co,biz:b,per:p}});
+ return keys.map(k=>{const m=by[k]||z();b+=m.db;p+=m.dp;return{k,...m,profit:m.inc-m.exp,pct:m.inc>0?m.exp/m.inc*100:null,saved:m.pin-m.pout+m.dr-m.co,biz:b,per:p}});
 }
 function chart(type,keys,ser,pct){
  const W=Math.max(260,Math.min(688,($('app').clientWidth||360)-34)),H=200,L=pct?36:48,R=8,T=10,B=26,iw=W-L-R,ih=H-T-B,n=keys.length,step=iw/n;
@@ -354,7 +395,7 @@ function vTrend(){
  return`<h2>Trends</h2><div class="chips">${chips}</div><p class="mut" style="margin:0 0 12px">${mlabel(keys[0])} to ${mlabel(L.k)}</p>`
  +sec('Income and expenses','Business money in and out each month',lg([['var(--bizf)','Income'],['var(--mut)','Expenses']]),chart('bar',keys,[{v:v(x=>x.inc),c:'var(--bizf)'},{v:v(x=>x.exp),c:'var(--mut)'}]))
  +sec('Profit',dv(L.profit,P.profit),'',chart('bar',keys,[{v:v(x=>x.profit),c:'var(--pos)',neg:1}]))
- +sec('Ingredient cost',L.pct==null?'No sales in the latest month':Math.round(L.pct)+'% of sales in the latest month','',chart('line',keys,[{v:v(x=>x.pct),c:'var(--bizf)'}],1))
+ +sec('Expenses vs sales',L.pct==null?'No sales in the latest month':'Expenses were '+Math.round(L.pct)+'% of sales in the latest month','',chart('line',keys,[{v:v(x=>x.pct),c:'var(--bizf)'}],1))
  +sec('Where the money sits','Balance at the end of each month',lg([['var(--bizf)','Business cash'],['var(--perf)','Personal savings']]),chart('line',keys,[{v:v(x=>x.biz),c:'var(--bizf)'},{v:v(x=>x.per),c:'var(--perf)'}]))
  +sec('Saved each month',dv(L.saved,P.saved),'',chart('bar',keys,[{v:v(x=>x.saved),c:'var(--perf)',neg:1}]));
 }
@@ -365,10 +406,10 @@ async function exportCSV(){
  if(!all.length){toast('Nothing to export yet');return}
  const sp=S.set.sep||',',r2=x=>Math.round(x*100)/100;
  const q=v=>{v=String(v??'');if(/^[=+\-@]/.test(v))v="'"+v;return/[";,\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
- const rows=[['Date','Month','Description','Type','Bucket','Category','Amount','Business effect','Personal effect']];
+ const rows=[['Date','Month','Description','Type','Bucket','Amount','Business effect','Personal effect']];
  for(const t of all){
   const tr=t.k=='t',p=t.b=='per',bp=t.dir=='bp';
-  rows.push([t.d,t.d.slice(0,7),q(t.t),tr?(bp?'Owner draw':'Contribution'):t.a>=0?'Money in':'Money out',tr?'Transfer':p?'Personal':'Business',q(tr?'':t.c||''),r2(t.a),tr?r2(bp?-t.a:t.a):p?0:r2(t.a),tr?r2(bp?t.a:-t.a):p?r2(t.a):0]);
+  rows.push([t.d,t.d.slice(0,7),q(t.t),tr?(bp?'Owner draw':'Contribution'):t.a>=0?'Money in':'Money out',tr?'Transfer':p?'Personal':'Business',r2(t.a),tr?r2(bp?-t.a:t.a):p?0:r2(t.a),tr?r2(bp?t.a:-t.a):p?r2(t.a):0]);
  }
  const csv='\uFEFF'+rows.map(r=>r.join(sp)).join('\r\n'),fn='two-pots-'+today()+'.csv';
  let dl=null;try{dl=window.claude?await claude.use('downloads'):null}catch(e){}
