@@ -310,7 +310,7 @@ function filt(){
  if(S.f=='biz')l=l.filter(t=>t.k!='t'&&t.b!='per');
  else if(S.f=='per')l=l.filter(t=>t.k!='t'&&t.b=='per');
  else if(S.f=='tr')l=l.filter(t=>t.k=='t');
- return l.sort((a,b)=>b.d.localeCompare(a.d));
+ return l.sort((a,b)=>b.d.localeCompare(a.d)||(a.id<b.id?1:a.id>b.id?-1:0));
 }
 function row(t){
  const tr=t.k=='t',dot=tr?'x':t.b=='per'?'p':'b';
