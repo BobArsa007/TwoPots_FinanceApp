@@ -82,6 +82,9 @@ label{display:block;font-size:14px;font-weight:600;color:var(--mut);margin:18px 
 .sheet label{margin:14px 0 6px}.sheet input,.sheet select{height:52px}.sheet .amt{height:auto}.sheet .seg button{height:42px}.sheet .g2 input,.sheet .g2 select{font-size:16px;padding:0 12px}
 :focus-visible{outline:2px solid var(--mint);outline-offset:2px}
 .ax{font-size:13px;fill:var(--mut)}.sec svg{display:block;max-width:100%}
+.hit{fill:transparent;cursor:pointer}.hit.hot{fill:rgba(255,255,255,.08)}
+#tip{position:fixed;z-index:10;display:none;pointer-events:none;min-width:150px;max-width:calc(100vw - 16px);padding:10px 14px;border-radius:14px;background:rgba(24,32,36,.92);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 12px 30px rgba(0,0,0,.5);font-size:13px}
+#tip b{display:block;margin-bottom:6px;color:var(--mut);font-weight:600}#tip div{display:flex;justify-content:space-between;gap:16px;margin-top:3px;font-weight:600}#tip span{display:flex;align-items:center;gap:7px;color:var(--mut);font-weight:500}#tip i{width:8px;height:8px;border-radius:50%;display:inline-block}#tip em{font-style:normal;white-space:nowrap}
 .lg{display:flex;gap:16px;font-size:14px;color:var(--mut);margin-bottom:8px}.lg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
 @keyframes up{from{transform:translateY(36px);opacity:0}}@keyframes pop{from{transform:scale(.96);opacity:0}}@keyframes rise{from{opacity:0;transform:translateY(10px)}}
 #app.in>*{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}#app.in>:nth-child(2){animation-delay:.05s}#app.in>:nth-child(3){animation-delay:.1s}#app.in>:nth-child(4){animation-delay:.15s}#app.in>:nth-child(n+5){animation-delay:.2s}
@@ -386,7 +389,10 @@ function chart(type,keys,ser,pct){
  keys.forEach((k,i)=>{if((n-1-i)%Math.ceil((k.length>7?22:26)/step))return;g+=`<text x="${L+step*(i+.5)}" y="${H-8}" text-anchor="middle" class="ax">${k.length>7?+k.slice(8):MN[+k.slice(5)-1]}</text>`});
  if(type=='bar'){const w=Math.min(30,step*.72/ser.length);ser.forEach((x,j)=>x.v.forEach((q,i)=>{if(q==null)return;const y0=y(0),y1=y(q);g+=`<rect x="${L+step*(i+.5)-w*ser.length/2+w*j}" y="${Math.min(y0,y1)}" width="${w-1}" height="${Math.max(1,Math.abs(y0-y1))}" rx="4" style="fill:${q<0&&x.neg?'var(--neg)':x.c}"/>`}))}
  else ser.forEach(x=>{let d='',dots='';x.v.forEach((q,i)=>{if(q==null)return;const cx=L+step*(i+.5),cy=y(q);d+=(d?'L':'M')+cx+' '+cy;dots+=`<circle cx="${cx}" cy="${cy}" r="3" style="fill:${x.c}"/>`});g+=`<path d="${d}" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" style="stroke:${x.c}"/>${dots}`});
- return`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img">${g}</svg>`;
+ const dl=k=>k.length>7?+k.slice(8)+' '+MN[+k.slice(5,7)-1]:mlabel(k);
+  keys.forEach((k,i)=>{const rows=ser.map(x=>[x.c,x.n||'',x.v[i]==null?'–':pct?(Math.round(x.v[i]*10)/10)+'%':fmt(x.v[i])]);
+   g+=`<rect class="hit" x="${L+step*i}" y="${T}" width="${step}" height="${ih+B}" data-tip="${esc(JSON.stringify([dl(k),rows]))}"/>`});
+  return`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img">${g}</svg>`;
 }
 function vTrend(){
  const dy=S.gr=='d',u=dy?'day':'month',n=dy?(S.td||14):(S.tr||6),d=series(n,dy),lb=k=>dy?+k.slice(8)+' '+MN[+k.slice(5,7)-1]:mlabel(k),L=d[n-1],P=d[n-2],keys=d.map(x=>x.k),v=f=>d.map(f);
@@ -397,11 +403,11 @@ function vTrend(){
  const dv=(a,b)=>`<span class="${a>=b?'pos':'neg'}">${a>=b?'Up':'Down'} ${fmt(Math.abs(a-b))}</span> from ${dy?'the day before':'last month'}`;
  const sec=(t,s,l,svg)=>`<section class="sec"><h3>${t}</h3><p class="mut" style="margin:-6px 0 10px">${s}</p>${l}${svg}</section>`;
  return`<h2>Trends</h2>${tg}<div class="chips">${chips}</div><p class="mut" style="margin:0 0 12px">${lb(keys[0])} to ${lb(L.k)}</p>`
- +sec('Income and expenses','Business money in and out each '+u,lg([['var(--bizf)','Income'],['var(--mut)','Expenses']]),chart('bar',keys,[{v:v(x=>x.inc),c:'var(--bizf)'},{v:v(x=>x.exp),c:'var(--mut)'}]))
- +sec('Profit',dv(L.profit,P.profit),'',chart('bar',keys,[{v:v(x=>x.profit),c:'var(--pos)',neg:1}]))
- +sec('Expenses vs sales',L.pct==null?'No sales in the latest '+u:'Expenses were '+Math.round(L.pct)+'% of sales in the latest '+u,'',chart('line',keys,[{v:v(x=>x.pct),c:'var(--bizf)'}],1))
- +sec('Where the money sits','Balance at the end of each '+u,lg([['var(--bizf)','Business cash'],['var(--perf)','Personal savings']]),chart('line',keys,[{v:v(x=>x.biz),c:'var(--bizf)'},{v:v(x=>x.per),c:'var(--perf)'}]))
- +sec('Saved each '+u,dv(L.saved,P.saved),'',chart('bar',keys,[{v:v(x=>x.saved),c:'var(--perf)',neg:1}]));
+ +sec('Income and expenses','Business money in and out each '+u,lg([['var(--bizf)','Income'],['var(--mut)','Expenses']]),chart('bar',keys,[{n:'Income',v:v(x=>x.inc),c:'var(--bizf)'},{n:'Expenses',v:v(x=>x.exp),c:'var(--mut)'}]))
+ +sec('Profit',dv(L.profit,P.profit),'',chart('bar',keys,[{n:'Profit',v:v(x=>x.profit),c:'var(--pos)',neg:1}]))
+ +sec('Expenses vs sales',L.pct==null?'No sales in the latest '+u:'Expenses were '+Math.round(L.pct)+'% of sales in the latest '+u,'',chart('line',keys,[{n:'Expenses',v:v(x=>x.pct),c:'var(--bizf)'}],1))
+ +sec('Where the money sits','Balance at the end of each '+u,lg([['var(--bizf)','Business cash'],['var(--perf)','Personal savings']]),chart('line',keys,[{n:'Business cash',v:v(x=>x.biz),c:'var(--bizf)'},{n:'Personal savings',v:v(x=>x.per),c:'var(--perf)'}]))
+ +sec('Saved each '+u,dv(L.saved,P.saved),'',chart('bar',keys,[{n:'Saved',v:v(x=>x.saved),c:'var(--perf)',neg:1}]));
 }
 
 /* ---------- export ---------- */
@@ -430,6 +436,25 @@ function vSet(){
  <button class="p" style="width:100%;margin-top:16px" onclick="exportCSV()">Export CSV</button></div>
  <div class="card"><h3>Currency</h3><input value="${esc(sym())}" onchange="setS('sym',this.value)"></div>
  ${FB.on&&FB.user?'<div class="card"><h3>Account</h3><p class="mut" style="margin:0">Signed in as '+esc(FB.user.email||'')+'</p><button style="width:100%;margin-top:16px" onclick="FB.signOut()">Sign out</button></div>':''}<div class="card"><h3>About your data</h3><p class="mut" style="margin:0">${FB.on&&db?'Everything is saved privately to your Google account, so your phone and computer stay in sync when you sign in with the same account. Only transactions are stored, never account numbers or logins.':db?'Everything is saved privately to this page, so your laptop and phone stay in sync when you open the same link while signed in to Claude. Only transactions are stored, never account numbers or logins.':'Everything is saved in this browser on this device only. It does not sync to other devices, and clearing your browser data erases it. Export a CSV now and then as a backup. Only transactions are stored, never account numbers or logins.'}</p></div>`;
+}
+
+/* ---------- chart tooltips: hover (mouse) or tap/click ---------- */
+{const tp=document.createElement('div');tp.id='tip';document.body.appendChild(tp);let cur=null,pin=false;
+ const hide=()=>{tp.style.display='none';if(cur)cur.classList.remove('hot');cur=null;pin=false};
+ const show=(el,x,y)=>{
+  if(cur!==el){if(cur)cur.classList.remove('hot');cur=el;el.classList.add('hot');
+   try{const[t,rows]=JSON.parse(el.dataset.tip);tp.innerHTML='<b>'+esc(t)+'</b>'+rows.map(([c,n,v])=>'<div><span><i style="background:'+c+'"></i>'+esc(n)+'</span><em>'+esc(v)+'</em></div>').join('')}catch(e){return}}
+  tp.style.display='block';
+  const w=tp.offsetWidth,h=tp.offsetHeight;
+  tp.style.left=Math.max(8,Math.min(innerWidth-w-8,x-w/2))+'px';
+  tp.style.top=(y-h-14<8?y+18:y-h-14)+'px';
+ };
+ const hitOf=e=>e.target&&e.target.closest?e.target.closest('.hit'):null;
+ document.addEventListener('pointermove',e=>{if(pin||e.pointerType=='touch')return;const el=hitOf(e);el?show(el,e.clientX,e.clientY):hide()});
+ document.addEventListener('click',e=>{const el=hitOf(e);if(!el){hide();return}
+  if(e.pointerType=='mouse'){show(el,e.clientX,e.clientY);return}
+  if(pin&&cur===el)hide();else{pin=true;show(el,e.clientX,e.clientY)}});
+ addEventListener('scroll',hide,{passive:true});
 }
 
 /* ---------- render + start ---------- */
