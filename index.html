@@ -167,7 +167,7 @@ const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const sum=a=>a.reduce((x,t)=>x+t.a,0);
 const sym=()=>S.set.sym??'Rp';
 const fmt=n=>{const r=sym()=='Rp',d=r?0:2;return(n<0?'-':'')+sym()+' '+Math.abs(n).toLocaleString(r?'id-ID':'en-US',{minimumFractionDigits:d,maximumFractionDigits:d})};
-const mOf=d=>d.slice(0,7);
+const mOf=d=>d.slice(0,7);const ymd=d=>ym(d)+'-'+String(d.getDate()).padStart(2,'0');
 const mlabel=m=>new Date(+m.slice(0,4),+m.slice(5)-1,1).toLocaleString('en',{month:'long',year:'numeric'});
 const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
 function toast(m){const e=$('toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3500)}
@@ -310,7 +310,8 @@ function filt(){
  if(S.f=='biz')l=l.filter(t=>t.k!='t'&&t.b!='per');
  else if(S.f=='per')l=l.filter(t=>t.k!='t'&&t.b=='per');
  else if(S.f=='tr')l=l.filter(t=>t.k=='t');
- return l.sort((a,b)=>b.d.localeCompare(a.d)||(a.id<b.id?1:a.id>b.id?-1:0));
+ const so=S.so||'new',c=(a,b)=>b.d.localeCompare(a.d)||(a.id<b.id?1:a.id>b.id?-1:0),v=t=>t.k=='t'?0:t.a;
+  return l.sort(so=='old'?(a,b)=>-c(a,b):so=='hi'?(a,b)=>v(b)-v(a)||c(a,b):so=='lo'?(a,b)=>v(a)-v(b)||c(a,b):so=='abs'?(a,b)=>Math.abs(b.a)-Math.abs(a.a)||c(a,b):c);
 }
 function row(t){
  const tr=t.k=='t',dot=tr?'x':t.b=='per'?'p':'b';
@@ -319,8 +320,8 @@ function row(t){
 }
 function vTx(){
  const ch=[['month','All'],['biz','Business'],['per','Personal'],['tr','Transfers']].map(([k,l])=>`<button class="${S.f==k?'on':''}" onclick="S.f='${k}';draw()">${l}</button>`).join('');
- const l=filt();
- return`<div class="hd"><h2>Transactions</h2><button onclick="exportCSV()">Export CSV</button></div>${mnav()}<div class="chips">${ch}</div><div class="card" style="margin-top:10px">${l.length?l.map(row).join(''):'<p class="mut">Nothing here yet.</p>'}</div>`;
+ const l=filt(),so=S.so||'new';
+ return`<div class="hd"><h2>Transactions</h2><button onclick="exportCSV()">Export CSV</button></div>${mnav()}<div class="chips">${ch}</div><select aria-label="Sort transactions" style="margin:-4px 0 10px" onchange="S.so=this.value;draw()">${[['new','Newest first'],['old','Oldest first'],['hi','Highest income'],['lo','Highest expense'],['abs','Largest amount']].map(([k,t])=>`<option value="${k}" ${so==k?'selected':''}>${t}</option>`).join('')}</select><div class="card" style="margin-top:10px">${l.length?l.map(row).join(''):'<p class="mut">Nothing here yet.</p>'}</div>`;
 }
 
 /* ---------- add / edit ---------- */
@@ -362,14 +363,14 @@ let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{if(S.t
 /* ---------- trends ---------- */
 const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const short=n=>{const a=Math.abs(n),r=sym()=='Rp',g=(v,u)=>(n<0?'-':'')+(Math.round(v*10)/10).toString().replace('.',r?',':'.')+u;return a>=1e9?g(a/1e9,r?'M':'B'):a>=1e6?g(a/1e6,r?'jt':'M'):a>=1e3?g(a/1e3,r?'rb':'k'):String(Math.round(n))};
-function series(n){
- const by={},z=()=>({inc:0,exp:0,dr:0,co:0,pin:0,pout:0,db:0,dp:0});
- calc().all.forEach(t=>{const m=by[mOf(t.d)]=by[mOf(t.d)]||z();
+function series(n,dy){
+ const K=d=>dy?d:mOf(d),by={},z=()=>({inc:0,exp:0,dr:0,co:0,pin:0,pout:0,db:0,dp:0});
+ calc().all.forEach(t=>{const m=by[K(t.d)]=by[K(t.d)]||z();
   if(t.k=='t'){if(t.dir=='bp'){m.dr+=t.a;m.db-=t.a;m.dp+=t.a}else{m.co+=t.a;m.dp-=t.a;m.db+=t.a}}
   else if(t.b!='per'){m.db+=t.a;if(t.a>0)m.inc+=t.a;else m.exp-=t.a}
   else{m.dp+=t.a;if(t.a>0)m.pin+=t.a;else m.pout-=t.a}});
- const ks=Object.keys(by).sort(),end=ks.length?ks[ks.length-1]:ym(new Date()),[ey,em]=end.split('-').map(Number),keys=[];
- for(let i=0;i<n;i++)keys.unshift(ym(new Date(ey,em-1-i,1)));
+ const ks=Object.keys(by).sort(),end=ks.length?ks[ks.length-1]:dy?today():ym(new Date()),[ey,em,ed]=end.split('-').map(Number),keys=[];
+ for(let i=0;i<n;i++)keys.unshift(dy?ymd(new Date(ey,em-1,ed-i)):ym(new Date(ey,em-1-i,1)));
  let b=S.set.ob||0,p=S.set.op||0;
  ks.filter(k=>k<keys[0]).forEach(k=>{b+=by[k].db;p+=by[k].dp});
  return keys.map(k=>{const m=by[k]||z();b+=m.db;p+=m.dp;return{k,...m,profit:m.inc-m.exp,pct:m.inc>0?m.exp/m.inc*100:null,saved:m.pin-m.pout+m.dr-m.co,biz:b,per:p}});
@@ -382,24 +383,25 @@ function chart(type,keys,ser,pct){
  let g='';
  for(let i=0;i<=3;i++){const q=lo+(hi-lo)*i/3,yy=y(q);g+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" style="stroke:var(--line)"/><text x="${L-6}" y="${yy+4}" text-anchor="end" class="ax">${tf(q)}</text>`}
  if(lo<0)g+=`<line x1="${L}" x2="${W-R}" y1="${y(0)}" y2="${y(0)}" style="stroke:var(--mut)"/>`;
- keys.forEach((k,i)=>{if(step<26&&(n-1-i)%2)return;g+=`<text x="${L+step*(i+.5)}" y="${H-8}" text-anchor="middle" class="ax">${MN[+k.slice(5)-1]}</text>`});
+ keys.forEach((k,i)=>{if((n-1-i)%Math.ceil((k.length>7?22:26)/step))return;g+=`<text x="${L+step*(i+.5)}" y="${H-8}" text-anchor="middle" class="ax">${k.length>7?+k.slice(8):MN[+k.slice(5)-1]}</text>`});
  if(type=='bar'){const w=Math.min(30,step*.72/ser.length);ser.forEach((x,j)=>x.v.forEach((q,i)=>{if(q==null)return;const y0=y(0),y1=y(q);g+=`<rect x="${L+step*(i+.5)-w*ser.length/2+w*j}" y="${Math.min(y0,y1)}" width="${w-1}" height="${Math.max(1,Math.abs(y0-y1))}" rx="4" style="fill:${q<0&&x.neg?'var(--neg)':x.c}"/>`}))}
  else ser.forEach(x=>{let d='',dots='';x.v.forEach((q,i)=>{if(q==null)return;const cx=L+step*(i+.5),cy=y(q);d+=(d?'L':'M')+cx+' '+cy;dots+=`<circle cx="${cx}" cy="${cy}" r="3" style="fill:${x.c}"/>`});g+=`<path d="${d}" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" style="stroke:${x.c}"/>${dots}`});
  return`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img">${g}</svg>`;
 }
 function vTrend(){
- const n=S.tr||6,d=series(n),L=d[n-1],P=d[n-2],keys=d.map(x=>x.k),v=f=>d.map(f);
- const chips=[3,6,12].map(k=>`<button class="${n==k?'on':''}" onclick="S.tr=${k};draw()">${k} months</button>`).join('');
- if(!d.some(x=>x.inc||x.exp||x.pin||x.pout||x.dr||x.co))return`<h2>Trends</h2><div class="chips">${chips}</div><div class="card"><h3>Nothing to chart yet</h3><p class="mut">Add a few transactions and your trends will show up here.</p></div>`;
+ const dy=S.gr=='d',u=dy?'day':'month',n=dy?(S.td||14):(S.tr||6),d=series(n,dy),lb=k=>dy?+k.slice(8)+' '+MN[+k.slice(5,7)-1]:mlabel(k),L=d[n-1],P=d[n-2],keys=d.map(x=>x.k),v=f=>d.map(f);
+ const tg=`<div class="seg" style="margin-bottom:14px"><button class="${dy?'':'on'}" onclick="S.gr='m';draw()">Monthly</button><button class="${dy?'on':''}" onclick="S.gr='d';draw()">Daily</button></div>`,
+   chips=(dy?[7,14,30]:[3,6,12]).map(k=>`<button class="${n==k?'on':''}" onclick="S.${dy?'td':'tr'}=${k};draw()">${k} ${dy?'days':'months'}</button>`).join('');
+ if(!d.some(x=>x.inc||x.exp||x.pin||x.pout||x.dr||x.co))return`<h2>Trends</h2>${tg}<div class="chips">${chips}</div><div class="card"><h3>Nothing to chart yet</h3><p class="mut">Add a few transactions and your trends will show up here.</p></div>`;
  const lg=a=>`<div class="lg">${a.map(([c,l])=>`<span><i style="background:${c}"></i>${l}</span>`).join('')}</div>`;
- const dv=(a,b)=>`<span class="${a>=b?'pos':'neg'}">${a>=b?'Up':'Down'} ${fmt(Math.abs(a-b))}</span> from last month`;
+ const dv=(a,b)=>`<span class="${a>=b?'pos':'neg'}">${a>=b?'Up':'Down'} ${fmt(Math.abs(a-b))}</span> from ${dy?'the day before':'last month'}`;
  const sec=(t,s,l,svg)=>`<section class="sec"><h3>${t}</h3><p class="mut" style="margin:-6px 0 10px">${s}</p>${l}${svg}</section>`;
- return`<h2>Trends</h2><div class="chips">${chips}</div><p class="mut" style="margin:0 0 12px">${mlabel(keys[0])} to ${mlabel(L.k)}</p>`
- +sec('Income and expenses','Business money in and out each month',lg([['var(--bizf)','Income'],['var(--mut)','Expenses']]),chart('bar',keys,[{v:v(x=>x.inc),c:'var(--bizf)'},{v:v(x=>x.exp),c:'var(--mut)'}]))
+ return`<h2>Trends</h2>${tg}<div class="chips">${chips}</div><p class="mut" style="margin:0 0 12px">${lb(keys[0])} to ${lb(L.k)}</p>`
+ +sec('Income and expenses','Business money in and out each '+u,lg([['var(--bizf)','Income'],['var(--mut)','Expenses']]),chart('bar',keys,[{v:v(x=>x.inc),c:'var(--bizf)'},{v:v(x=>x.exp),c:'var(--mut)'}]))
  +sec('Profit',dv(L.profit,P.profit),'',chart('bar',keys,[{v:v(x=>x.profit),c:'var(--pos)',neg:1}]))
- +sec('Expenses vs sales',L.pct==null?'No sales in the latest month':'Expenses were '+Math.round(L.pct)+'% of sales in the latest month','',chart('line',keys,[{v:v(x=>x.pct),c:'var(--bizf)'}],1))
- +sec('Where the money sits','Balance at the end of each month',lg([['var(--bizf)','Business cash'],['var(--perf)','Personal savings']]),chart('line',keys,[{v:v(x=>x.biz),c:'var(--bizf)'},{v:v(x=>x.per),c:'var(--perf)'}]))
- +sec('Saved each month',dv(L.saved,P.saved),'',chart('bar',keys,[{v:v(x=>x.saved),c:'var(--perf)',neg:1}]));
+ +sec('Expenses vs sales',L.pct==null?'No sales in the latest '+u:'Expenses were '+Math.round(L.pct)+'% of sales in the latest '+u,'',chart('line',keys,[{v:v(x=>x.pct),c:'var(--bizf)'}],1))
+ +sec('Where the money sits','Balance at the end of each '+u,lg([['var(--bizf)','Business cash'],['var(--perf)','Personal savings']]),chart('line',keys,[{v:v(x=>x.biz),c:'var(--bizf)'},{v:v(x=>x.per),c:'var(--perf)'}]))
+ +sec('Saved each '+u,dv(L.saved,P.saved),'',chart('bar',keys,[{v:v(x=>x.saved),c:'var(--perf)',neg:1}]));
 }
 
 /* ---------- export ---------- */
