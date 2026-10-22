@@ -22,7 +22,10 @@ h3{margin:0 0 18px;font-size:22px;font-weight:700;letter-spacing:-.025em;display
 .wm i{font-style:normal;display:inline-block;background:linear-gradient(90deg,#6ff0b8 0%,#2bb67d 45%,#ffb62e 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .wm small{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--mut)}
 .nb{display:none}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:12px}.hd button{height:46px;font-size:15px;padding:0 22px}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dh{margin:20px 6px 8px;font-size:14px;font-weight:600;color:var(--mut)}#txl>.dh:first-child{margin-top:12px}
+.card.dg{padding-top:4px;padding-bottom:4px}.dg .tr:last-child{border-bottom:0}
+input.sx{height:50px;padding:0 16px 0 46px;margin:0 0 14px;background:rgba(255,255,255,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a3b3b6' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 16px center;background-size:20px;-webkit-appearance:none;appearance:none}.hd button{height:46px;font-size:15px;padding:0 22px}
 .card,.sec{position:relative;background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(160%);backdrop-filter:blur(26px) saturate(160%);border-radius:var(--r);padding:22px;margin-bottom:14px;box-shadow:0 18px 40px -14px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.08)}
 .card::before,.sec::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.04) 45%,rgba(255,255,255,.1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .mut{color:var(--mut);font-size:15px}.pos{color:var(--pos)}.neg{color:var(--neg)}
@@ -309,22 +312,39 @@ function vHome(){
 
 /* ---------- transactions ---------- */
 function filt(){
- let l=calc().all.filter(t=>t.d.startsWith(S.mon));
+ const q=(S.q||'').trim().toLowerCase();
+ let l=calc().all.filter(t=>q||t.d.startsWith(S.mon));
  if(S.f=='biz')l=l.filter(t=>t.k!='t'&&t.b!='per');
  else if(S.f=='per')l=l.filter(t=>t.k!='t'&&t.b=='per');
  else if(S.f=='tr')l=l.filter(t=>t.k=='t');
+ if(q)l=l.filter(t=>String(t.t||'').toLowerCase().includes(q));
  const so=S.so||'new',c=(a,b)=>b.d.localeCompare(a.d)||(a.id<b.id?1:a.id>b.id?-1:0),v=t=>t.k=='t'?0:t.a;
   return l.sort(so=='old'?(a,b)=>-c(a,b):so=='hi'?(a,b)=>v(b)-v(a)||c(a,b):so=='lo'?(a,b)=>v(a)-v(b)||c(a,b):so=='abs'?(a,b)=>Math.abs(b.a)-Math.abs(a.a)||c(a,b):c);
 }
-function row(t){
+function row(t,g){
  const tr=t.k=='t',dot=tr?'x':t.b=='per'?'p':'b';
  const sub=tr?(t.dir=='bp'?'To personal':'To business'):(t.b=='per'?'Personal':'Business');
- return`<div class="tr" onclick="openForm('${t.id}')"><span class="dt ${dot}"></span><div class="tm"><div class="d">${esc(t.t)}</div><div class="mut">${+t.d.slice(8)} ${MN[+t.d.slice(5,7)-1]} · ${sub}</div></div><b class="${!tr&&t.a>0?'pos':''}">${tr?'':t.a>0?'+':''}${fmt(t.a)}</b></div>`;
+ return`<div class="tr" onclick="openForm('${t.id}')"><span class="dt ${dot}"></span><div class="tm"><div class="d">${esc(t.t)}</div><div class="mut">${g?'':+t.d.slice(8)+' '+MN[+t.d.slice(5,7)-1]+' · '}${sub}</div></div><b class="${tr?'':t.a>0?'pos':'neg'}">${tr?'':t.a>0?'+':''}${fmt(t.a)}</b></div>`;
+}
+function dlab(d){
+ const t=today(),p=new Date(t+'T00:00:00');p.setDate(p.getDate()-1);
+ const y=p.getFullYear()+'-'+String(p.getMonth()+1).padStart(2,'0')+'-'+String(p.getDate()).padStart(2,'0');
+ if(d==t)return'Today';if(d==y)return'Yesterday';
+ return['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][new Date(d+'T00:00:00').getDay()]+', '+(+d.slice(8))+' '+MN[+d.slice(5,7)-1]+(d.slice(0,4)!=t.slice(0,4)?' '+d.slice(0,4):'');
+}
+function txList(l){
+ const q=(S.q||'').trim(),so=S.so||'new';
+ if(!l.length)return`<div class="card"><p class="mut">${q?'No entries match “'+esc(q)+'”.':'Nothing here yet.'}</p></div>`;
+ const note=q?`<p class="mut" style="margin:12px 6px 0">${l.length} ${l.length==1?'entry':'entries'} across all months</p>`:'';
+ if(so!='new'&&so!='old')return note+`<div class="card" style="margin-top:10px">${l.map(t=>row(t)).join('')}</div>`;
+ let h=note,cur=null;
+ l.forEach(t=>{if(t.d!=cur){if(cur!==null)h+='</div>';h+=`<div class="dh">${dlab(t.d)}</div><div class="card dg">`;cur=t.d}h+=row(t,1)});
+ return h+'</div>';
 }
 function vTx(){
  const ch=[['month','All'],['biz','Business'],['per','Personal'],['tr','Transfers']].map(([k,l])=>`<button class="${S.f==k?'on':''}" onclick="S.f='${k}';draw()">${l}</button>`).join('');
  const l=filt(),so=S.so||'new';
- return`<div class="hd"><h2>Transactions</h2><button onclick="exportCSV()">Export CSV</button></div>${mnav()}<div class="chips">${ch}</div><select aria-label="Sort transactions" style="margin:-4px 0 10px" onchange="S.so=this.value;draw()">${[['new','Newest first'],['old','Oldest first'],['hi','Highest income'],['lo','Highest expense'],['abs','Largest amount']].map(([k,t])=>`<option value="${k}" ${so==k?'selected':''}>${t}</option>`).join('')}</select><div class="card" style="margin-top:10px">${l.length?l.map(row).join(''):'<p class="mut">Nothing here yet.</p>'}</div>`;
+ return`<div class="hd"><h2>Transactions</h2><button onclick="exportCSV()">Export CSV</button></div>${mnav()}<input class="sx" type="search" placeholder="Search entries" aria-label="Search entries" autocomplete="off" value="${esc(S.q||'')}" oninput="S.q=this.value;$('txl').innerHTML=txList(filt())"><div class="chips">${ch}</div><select aria-label="Sort transactions" style="margin:-4px 0 10px" onchange="S.so=this.value;draw()">${[['new','Newest first'],['old','Oldest first'],['hi','Highest income'],['lo','Highest expense'],['abs','Largest amount']].map(([k,t])=>`<option value="${k}" ${so==k?'selected':''}>${t}</option>`).join('')}</select><div id="txl">${txList(l)}</div>`;
 }
 
 /* ---------- add / edit ---------- */
